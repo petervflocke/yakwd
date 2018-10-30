@@ -187,8 +187,8 @@ func processWeatherData(displayTxt *[numDays]displayTxtType, w *owm.Forecast5Wea
 	if err == nil {
 		localTime = localTime.In(location)
 	}
-	// fmt.Println("UTC: ", currentTime)
-	// fmt.Println("Loc: ", localTime)
+	fmt.Println("UTC: ", currentTime)
+	fmt.Println("Loc: ", localTime)
 	currentTime = localTime
 
 	// time zones ranges are defined based on 3 hours blocks as the data are comming from open weather maps
