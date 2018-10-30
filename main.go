@@ -407,7 +407,3 @@ func main() {
 
 	os.Exit(0)
 }
-
-func customLogf(str string, args ...interface{}) {
-	fmt.Printf(str, args...)
-}
