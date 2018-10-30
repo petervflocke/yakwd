@@ -365,12 +365,23 @@ func showImage(imagePath string) {
 	}
 }
 
+const lipcSet = "/usr/bin/lipc-set-prop"
+const lipcGet = "/usr/bin/lipc-get-prop"
+const powerd = "com.lab126.powerd"
+const batStat = "battLevel"
+const pmond = "com.lab126.pmond"
+const battery = "/usr/bin/powerd_test"
+const eips = "/usr/sbin/eips"
+
 var wg sync.WaitGroup
+var keyboard chan Kbd
 
 // global display holds data from the past today's forecasts for morning, and afternoon, when they are not a forecast any loner
 var displayTxt [numDays]displayTxtType
 
 func main() {
+	keyboard = make(chan Kbd, 2)
+
 	config, err := readConfig()
 	if err != nil {
 		log.Fatalln(err)
@@ -382,10 +393,16 @@ func main() {
 		job(config)
 	})
 	c.Start()
+	wg.Add(1)
 
 	job(config)
 
-	wg.Add(1)
+	if config.Kindle == 1 {
+		go KeyboardWorker()
+		go MenuWorker()
+		// wg.Add(1)
+	}
+
 	wg.Wait()
 
 	os.Exit(0)
