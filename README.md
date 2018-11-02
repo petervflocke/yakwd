@@ -8,3 +8,5 @@
 
 
 ![live foto](https://github.com/petervflocke/yakwd/blob/master/Docs/kindle-live.jpg)
+<br>
+![live foto](https://github.com/petervflocke/yakwd/blob/master/Docs/kindle-live-2.jpg)
