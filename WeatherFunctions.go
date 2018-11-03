@@ -9,7 +9,7 @@ import (
 )
 
 // RenderWeatherDisp converts txt structure into a png picture
-func RenderWeatherDisp(displayTxt *[numDays]displayTxtType) {
+func RenderWeatherDisp(displayTxt *displayTxtType) {
 	const my = 75       // margin from top
 	const dy = 25 + 200 // high of a column
 	const ix = 70       // x of a midle of a weather icon in the firts column
@@ -19,6 +19,8 @@ func RenderWeatherDisp(displayTxt *[numDays]displayTxtType) {
 	const ty = 115      // y of a first temperature text
 	const hy = -20      // move up header text
 	const iy = 190      // y of the the detailed weather information
+	const fy = 30       // y footer from the last line
+	const fx = 20       // x from left and right for footer text
 
 	// for i := 0; i < numDays; i++ {
 	// 	for j := 0; j < timeZones; j++ {
@@ -37,8 +39,8 @@ func RenderWeatherDisp(displayTxt *[numDays]displayTxtType) {
 	for i := 0; i < 4; i++ {
 		dc.DrawLine(0, my+float64(i*dy), 600, my+float64(i*dy))
 	}
-	dc.DrawLine(1*dx, 0, 1*dx, 800)
-	dc.DrawLine(2*dx, 0, 2*dx, 800)
+	dc.DrawLine(1*dx, 0, 1*dx, my+3*dy)
+	dc.DrawLine(2*dx, 0, 2*dx, my+3*dy)
 
 	for i := 0; i < numDays; i++ {
 		// Print Temperature
@@ -46,8 +48,8 @@ func RenderWeatherDisp(displayTxt *[numDays]displayTxtType) {
 			panic(err)
 		}
 		for j := 0; j < timeZones; j++ {
-			if displayTxt[i].Icon[j] != "?" {
-				dc.DrawStringAnchored(fmt.Sprintf("%-0.0f", displayTxt[i].Temp[j]), tx+float64(j)*dx, my+ty+float64(i)*dy, 1, 1)
+			if displayTxt.Icon[i][j] != "?" {
+				dc.DrawStringAnchored(fmt.Sprintf("%-0.0f", displayTxt.Temp[i][j]), tx+float64(j)*dx, my+ty+float64(i)*dy, 1, 1)
 			}
 		}
 
@@ -56,7 +58,7 @@ func RenderWeatherDisp(displayTxt *[numDays]displayTxtType) {
 			panic(err)
 		}
 		for j := 0; j < timeZones; j++ {
-			if displayTxt[i].Icon[j] != "?" {
+			if displayTxt.Icon[i][j] != "?" {
 				dc.DrawStringAnchored("°C", tx+float64(j)*dx, my+ty+float64(i)*dy, 0, 1)
 			}
 		}
@@ -66,8 +68,8 @@ func RenderWeatherDisp(displayTxt *[numDays]displayTxtType) {
 			panic(err)
 		}
 		for j := 0; j < timeZones; j++ {
-			if displayTxt[i].Icon[j] != "?" {
-				dc.DrawStringWrapped(displayTxt[i].Description[j], dx/2+float64(j)*dx, my+iy+float64(i)*dy, 0.5, 0.5, 180, 1.5, gg.AlignCenter)
+			if displayTxt.Icon[i][j] != "?" {
+				dc.DrawStringWrapped(displayTxt.Description[i][j], dx/2+float64(j)*dx, my+iy+float64(i)*dy, 0.5, 0.5, 180, 1.5, gg.AlignCenter)
 			}
 		}
 
@@ -77,7 +79,7 @@ func RenderWeatherDisp(displayTxt *[numDays]displayTxtType) {
 		}
 
 		for j := 0; j < timeZones; j++ {
-			dc.DrawStringAnchored(displayTxt[i].Icon[j], ix+float64(j)*dy, my+wy+float64(i)*dy, 0.5, 0.5)
+			dc.DrawStringAnchored(displayTxt.Icon[i][j], ix+float64(j)*dy, my+wy+float64(i)*dy, 0.5, 0.5)
 		}
 
 	}
@@ -89,6 +91,18 @@ func RenderWeatherDisp(displayTxt *[numDays]displayTxtType) {
 	dc.DrawStringAnchored("Afternoon", dx/2+1*dx, my+hy, 0.5, 0)
 	dc.DrawStringAnchored("Evening", dx/2+2*dx, my+hy, 0.5, 0)
 
+	if err := dc.LoadFontFace("./fonts/Robotosr.ttf", 24); err != nil {
+		panic(err)
+	}
+
+	dc.DrawStringAnchored(displayTxt.City+" @ "+displayTxt.TimeStamp, 250, my+3*dy+fy, 0.5, 0)
+
+	// print Battery icon
+	if err := dc.LoadFontFace("./fonts/kindleweathersr.ttf", 40); err != nil {
+		panic(err)
+	}
+	dc.DrawStringAnchored(displayTxt.Batt, 600-3*fx, my+3*dy+fy, 0, 0.5)
+
 	dc.Stroke()
 	// dc.SavePNG("tmp.png") // not a gray scale picture - we do not need it
 	SaveGrayPic(dc.Image(), picFile)
@@ -96,7 +110,7 @@ func RenderWeatherDisp(displayTxt *[numDays]displayTxtType) {
 
 // ProcessWeatherData converts json structure from open weather into txt structure
 // Selecting data from given time zones during the day
-func ProcessWeatherData(displayTxt *[numDays]displayTxtType, w *owm.Forecast5WeatherData) {
+func ProcessWeatherData(displayTxt *displayTxtType, w *owm.Forecast5WeatherData) {
 
 	var weatherFontMapping = map[int]string{
 		// openweather Main weather code to icon conversion
@@ -117,6 +131,9 @@ func ProcessWeatherData(displayTxt *[numDays]displayTxtType, w *owm.Forecast5Wea
 	// fmt.Println("UTC: ", currentTime)
 	// fmt.Println("Loc: ", localTime)
 	currentTime = localTime
+
+	displayTxt.City = w.City.Name
+	displayTxt.TimeStamp = currentTime.Format("15:04:05 Mon _2 Jan 2006")
 
 	// time zones ranges are defined based on 3 hours blocks as the data are comming from open weather maps
 	// Starting from 00:00, 03:00, 06:00, 09:00, 12, 15, 18, 21, 24=00:00
@@ -180,11 +197,11 @@ func ProcessWeatherData(displayTxt *[numDays]displayTxtType, w *owm.Forecast5Wea
 			timeZone = 2
 		}
 		if (forecastDay != -1) && (timeZone != -1) {
-			displayTxt[forecastDay].Temp[timeZone] = key.Main.Temp
-			displayTxt[forecastDay].Description[timeZone] = key.Weather[0].Description
-			displayTxt[forecastDay].Icon[timeZone] = weatherFontMapping[key.Weather[0].ID]
-			if displayTxt[forecastDay].Icon[timeZone] == "" {
-				displayTxt[forecastDay].Icon[timeZone] = "?"
+			displayTxt.Temp[forecastDay][timeZone] = key.Main.Temp
+			displayTxt.Description[forecastDay][timeZone] = key.Weather[0].Description
+			displayTxt.Icon[forecastDay][timeZone] = weatherFontMapping[key.Weather[0].ID]
+			if displayTxt.Icon[forecastDay][timeZone] == "" {
+				displayTxt.Icon[forecastDay][timeZone] = "?"
 			}
 			//customLogf("Day: %d, Time: %d  ", forecastDay, timeZone)
 			//fmt.Println("dt:", time.Unix(key.Dt, 0).UTC(), " dt: ", key.Dt)

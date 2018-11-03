@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strconv"
 	"sync"
 
 	"github.com/robfig/cron"
@@ -26,9 +27,12 @@ const timeZones = 3 // number of time zones within one day e.g. morning, afterno
 
 type displayTxtType struct {
 	// Day       time.Time
-	Description [timeZones]string
-	Icon        [timeZones]string
-	Temp        [timeZones]float64
+	Description [numDays][timeZones]string
+	Icon        [numDays][timeZones]string
+	Temp        [numDays][timeZones]float64
+	City        string
+	TimeStamp   string
+	Batt        string
 }
 
 func readConfig() (Config, error) {
@@ -51,11 +55,11 @@ func readConfig() (Config, error) {
 }
 
 // for the fisrt run add to all days and time zones icon "?" unknonw weather
-func zeroDisplayTxt(displayTxt *[numDays]displayTxtType) {
+func zeroDisplayTxt(displayTxt *displayTxtType) {
 
 	for i := 0; i < numDays; i++ {
 		for j := 0; j < timeZones; j++ {
-			displayTxt[i].Icon[j] = "?"
+			displayTxt.Icon[i][j] = "?"
 		}
 	}
 }
@@ -64,8 +68,11 @@ func job(config Config) {
 	var err error
 
 	if config.Kindle == 1 {
+		batLevel, _ := strconv.Atoi(checkBattery())
+		displayTxt.Batt = ConverBatt(batLevel)
 		err = CheckNetwork()
 	} else {
+		displayTxt.Batt = "?"
 		err = nil
 	}
 	if err != nil {
@@ -92,7 +99,7 @@ var wg sync.WaitGroup
 var keyboard chan Kbd
 
 // global display holds data from the past today's forecasts for morning, and afternoon, when they are not a forecast any loner
-var displayTxt [numDays]displayTxtType
+var displayTxt displayTxtType
 
 func main() {
 	config, err := readConfig()

@@ -173,3 +173,31 @@ func CheckNetwork() error {
 	}
 	return nil // we wnet through the check path wifi and internet are both fine
 }
+
+func checkBattery() string {
+	cmd := exec.Command("/usr/bin/lipc-get-prop", "-i", "com.lab126.powerd", "battLevel")
+	cmdOut, err := cmd.CombinedOutput()
+	if err != nil {
+		//panic(err)
+		fmt.Println("Error: ", err)
+	}
+	return strings.TrimSuffix(string(cmdOut), "\n")
+}
+
+// ConverBatt returns "0" to "4" strings as an indicator of the battery rest capacity
+// for levels possible
+func ConverBatt(bl int) string {
+	level := "0"
+	if bl > 75 {
+		level = "4"
+	} else if bl > 50 {
+		level = "3"
+	} else if bl > 25 {
+		level = "2"
+	} else if bl > 10 {
+		level = "1"
+	} else {
+		level = "0"
+	}
+	return level
+}
