@@ -69,11 +69,13 @@ func MenuWorker(config Config) {
 			if ok { // not empty, then process the key
 				// fmt.Println("Got Key:", k.key, " Pressed: ", k.state)
 				switch k.key {
-				case 158: // back pressed
+				case 158: // back pressed or released does not matter :)
 					// fmt.Println("Pressed", k.key, " exiting")
 					wg.Done()
-				case 29: // Keyboard
-					job(config)
+				case 29: // Keyboard button
+					if k.state == 1 { // pressed
+						job(config)
+					}
 				default: // .... next function to be built in, next city, detailed forecast or whatsoever
 					fmt.Println("Got Key:", k.key, " Pressed: ", k.state)
 				}
@@ -125,8 +127,7 @@ func renderErrorDisp(icon, message string) {
 
 // CheckWiFi returns true if kindle wifi interface is up and connected
 func CheckWiFi() bool {
-	fmt.Println("/usr/bin/lipc-set-prop", "com.lab126.wifid", "cmState")
-	cmd := exec.Command("/usr/bin/lipc-set-prop", "com.lab126.wifid", "cmState")
+	cmd := exec.Command("/usr/bin/lipc-get-prop", "com.lab126.wifid", "cmState")
 	cmdOut, err := cmd.CombinedOutput()
 	if err != nil {
 		//panic(err)

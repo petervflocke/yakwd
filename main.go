@@ -81,10 +81,10 @@ func job(config Config) {
 			ProcessWeatherData(&displayTxt, w)
 		}
 		// when we are on kidle go ahead with the display task
-		if config.Kindle == 1 {
-			clearDisplay()
-			showImage(picFile)
-		}
+	}
+	if config.Kindle == 1 {
+		clearDisplay()
+		showImage(picFile)
 	}
 }
 
