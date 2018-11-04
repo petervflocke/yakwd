@@ -1,10 +1,16 @@
 # yakwd
 
 (Alfa version of a) stand alone app for weather forecast direct download from https://openweathermap.org and display on a Kindle 4 NT<br>
-<br>No additional server needed.<br>
-<br>No additional graphic converter (e.g. imagemagick, pngcrush, etc) is needed. Go code produces 8 bit gray scale pics, eips ready.<br>
-<br>App displays forecast for 3 days today, tomorrow and a day after tomorrow. For each day 3 time zones are reflected (morning, afternoon and evening)<br>
-<br>Early but runnable code :)<br>
+Main Features
+---
++ No additional server nor local python is needed.
++ No additional graphic software converter (e.g. imagemagick, pngcrush, etc) is needed. Go code produces 8 bit gray scale pics, eips ready.
++ App displays forecast for 3 days today, tomorrow and a day after tomorrow. For each day 3 time zones are reflected (morning, afternoon and evening). Weather picture is updated at every full hour
++ Kindle 4 keyboard functions:
+  + _Back_ -> exist the application
+  + _Virtsual Keyboard_ : refresh the forecast now
+  + _Right Next Page_ : switch to the next city on the list
+  + _Left Next Page_ : switch to the previous city on the list
 
 Remarks:
 ---
@@ -33,6 +39,12 @@ Long Install
 * install all used packages
 * compile go source, see build file for target kindle architecture
 * copy results including config, scripts and fonts files to your kindle.
+
+ToDo
+---
+* Add init script for start at boot
+* Reduce current consupmtion by adding sleep mode or switching off wifi when not needed
+* Add calendar view option
 
 
 Example from the alfa v1.0 Version with an own footer of location, time and battery<br>
