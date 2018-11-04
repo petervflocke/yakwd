@@ -4,7 +4,7 @@
 
 ### Main Features
 + No additional server nor local kindle python is needed.
-+ No additional graphic software converter (e.g. imagemagick, pngcrush, etc) is needed. Go code produces 8 bit gray scale pics, eips ready.
++ No additional graphic software converter (e.g. imagemagick, pngcrush, etc) is needed. Go code produces 8 bit gray scale pics, eips ready entirely on the Kindle.
 + App displays forecast for 3 days today, tomorrow and a day after tomorrow. For each day 3 time zones are reflected (morning, afternoon and evening). Weather picture is updated at every full hour
 + Kindle 4 keyboard functions:
   + _Back_ : exits the application
