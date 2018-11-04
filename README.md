@@ -47,7 +47,8 @@ ToDo
 * Reduce current consupmtion by adding sleep mode or switching off wifi when not needed
 * Add calendar view option
 
-
+"ScreenShots"
+---
 Example from the alfa v1.0 Version with an own footer of location, time and battery<br>
 Pictures have a spot in the upper corner, it's a broken screen :(
 
