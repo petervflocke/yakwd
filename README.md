@@ -45,6 +45,7 @@ run main.sh
 * Add init script for start at boot
 * Reduce current consupmtion by adding sleep mode or switching off wifi when not needed
 * Add calendar view option
+* Out of scope: Creating a Kindle "update" package and KUAL compatibility
 
 
 ### "ScreenShots"
