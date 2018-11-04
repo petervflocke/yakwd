@@ -218,10 +218,10 @@ func getForecast5(config Config) (*owm.Forecast5WeatherData, error) {
 	// w.DailyByName("Albuquerque", 40)
 	// better use City ID to get unique responce from open weather maps
 	// run below command from your linux terminal to find id of your city
-	// wget -qO - http://bulk.openweathermap.org/sample/city.list.json.gz | zcat | grep -B1 -A4 Albuquerque
+	// wget -qO - http://bulk.openweathermap.org/sample/city.list.json.gz | zcat | grep -i -B1 -A4 Albuquerque
 	// and update the config.json file with the city ID
 
-	w.DailyByID(config.CityID, 40)
+	w.DailyByID(config.CityIDTable[config.CityIDx], 40)
 	forecast := w.ForecastWeatherJson.(*owm.Forecast5WeatherData)
 	return forecast, err
 }

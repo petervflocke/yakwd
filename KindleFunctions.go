@@ -76,6 +76,10 @@ func MenuWorker(config Config) {
 					if k.state == 1 { // pressed
 						job(config)
 					}
+				case 191: // Keyboard button
+					if k.state == 1 { // pressed
+						job(config)
+					}
 				default: // .... next function to be built in, next city, detailed forecast or whatsoever
 					fmt.Println("Got Key:", k.key, " Pressed: ", k.state)
 				}

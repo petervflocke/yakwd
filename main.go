@@ -17,9 +17,10 @@ const picFile = "out.png"
 
 // Config File Structure, can be extend if needed, languages, update times, etc.
 type Config struct {
-	APIKey string `json:"apikey"`
-	CityID int    `json:"cityid"`
-	Kindle int    `json:"kindle"` // = 1 we are on kindle, do all kindle related jobs
+	APIKey      string `json:"apikey"`
+	CityIDTable []int  `json:"cityidtable"`
+	CityIDx     int    `json:"cityidx"`
+	Kindle      int    `json:"kindle"` // = 1 we are on kindle, do all kindle related jobs
 }
 
 const numDays = 3   // number of forecast days to be displayed
@@ -36,7 +37,7 @@ type displayTxtType struct {
 }
 
 func readConfig() (Config, error) {
-	config := Config{APIKey: "", CityID: 0, Kindle: 0}
+	config := Config{APIKey: "", CityIDTable: []int{}, CityIDx: -1, Kindle: 0}
 	configFile, err := os.Open("config.json")
 	defer configFile.Close()
 	if err == nil {
@@ -46,8 +47,12 @@ func readConfig() (Config, error) {
 			switch {
 			case config.APIKey == "":
 				err = errors.New("Undefined API Key")
-			case config.CityID == 0:
-				err = errors.New("Undifined City ID")
+			case config.CityIDx < 0:
+				err = errors.New("Undifined City ID Index")
+			case len(config.CityIDTable) == 0:
+				err = errors.New("Undifined City ID Table, at least one ID needed")
+			case (len(config.CityIDTable) - 1) < config.CityIDx:
+				err = errors.New("Ccity Index bigger then city numbers")
 			}
 		}
 	}
@@ -67,6 +72,7 @@ func zeroDisplayTxt(displayTxt *displayTxtType) {
 func job(config Config) {
 	var err error
 
+	mu.Lock()
 	if config.Kindle == 1 {
 		batLevel, _ := strconv.Atoi(checkBattery())
 		displayTxt.Batt = ConverBatt(batLevel)
@@ -82,7 +88,7 @@ func job(config Config) {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		if w.City.ID != config.CityID { // open weather map did not return correct weather data, possible reason: network, server, etc. error?
+		if w.City.ID != config.CityIDTable[config.CityIDx] { // open weather map did not return correct weather data, possible reason: network, server, etc. error?
 			renderErrorDisp("!", "Weather data not available.")
 		} else {
 			ProcessWeatherData(&displayTxt, w)
@@ -93,15 +99,18 @@ func job(config Config) {
 		clearDisplay()
 		showImage(picFile)
 	}
+	mu.Unlock()
 }
 
 var wg sync.WaitGroup
+var mu sync.Mutex
 var keyboard chan Kbd
 
 // global display holds data from the past today's forecasts for morning, and afternoon, when they are not a forecast any loner
 var displayTxt displayTxtType
 
 func main() {
+
 	config, err := readConfig()
 	if err != nil {
 		log.Fatalln(err)
