@@ -9,6 +9,7 @@
 Remarks:
 ---
 * Inspired by https://github.com/DDRBoxman/kindle-weather
+* tested on Kindle 4 No Touch https://wiki.mobileread.com/wiki/Kindle4NTHacking
 * If you do not want to install Golang, use a ready binary from bin folder. It was tested on Kindle 4 NT
 * Full starting script for the init process will follow soon
 * Pictures have a spot in the upper corner, it is a broken screen.
