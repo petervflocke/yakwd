@@ -8,7 +8,7 @@ Main Features
 + No additional graphic software converter (e.g. imagemagick, pngcrush, etc) is needed. Go code produces 8 bit gray scale pics, eips ready.
 + App displays forecast for 3 days today, tomorrow and a day after tomorrow. For each day 3 time zones are reflected (morning, afternoon and evening). Weather picture is updated at every full hour
 + Kindle 4 keyboard functions:
-  + _Back_ -> exist the application
+  + _Back_ : exits the application
   + _Virtsual Keyboard_ : refresh the forecast now
   + _Right Next Page_ : switch to the next city on the list
   + _Left Next Page_ : switch to the previous city on the list
