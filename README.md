@@ -20,9 +20,9 @@ Quick Install:
 2) copy to the folder with yakwd 
 * font folder
 * config.json.sample and rename to config.json - update it with<br>
-+ your own open weather API key. 
-+ the city ids to be added to the table (at least one) 
-+ an index for the firts city to be displayed. Index starts from 0
+  * your own open weather API key. 
+  * the city ids to be added to the table (at least one) 
+  * an index for the firts city to be displayed. Index starts from 0
 * main.sh 
 
 run main.sh
