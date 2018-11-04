@@ -9,12 +9,12 @@
 Remarks:
 ---
 * If you do not want to install Golang, use a ready binary from bin folder. It was tested on Kindle 4 NT
-* Starting script for the init process will follow soon
-* Remark: Pictures have a spot in the upper corner, it is a broken screen.
+* Full starting script for the init process will follow soon
+* Pictures have a spot in the upper corner, it is a broken screen.
 
-Install:
+Quick Install:
 ---
-1) copy from bin file "yakwd" to your kindle#
+1) copy from bin project folder file "yakwd" to your kindle
 2) copy to the folder with yakwd 
 * font folder
 * config.json.sample and rename to config.json - update it with the city id and your open weather API key
@@ -22,7 +22,13 @@ Install:
 
 run main.sh
 
+Long Install
 ---
+* clone git repository
+* install all used packages
+* compile go source, see build file for target kindle architecture
+* copy results including config, scripts and fonts files to your kindle.
+
 
 Example from the alfa v1.0 Version with an own footer of location, time and battery
 
