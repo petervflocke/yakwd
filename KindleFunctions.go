@@ -44,6 +44,14 @@ func KeyboardWorker() {
 	}
 }
 
+// RollIdx keeps the index of the cities in range of the city table
+func RollIdx(i, maxi int) int {
+	if i < 0 {
+		return maxi - 1
+	}
+	return i % maxi
+}
+
 // MenuWorker consumes key from channel and updates program states
 // at this moment only exits
 func MenuWorker(config Config) {
@@ -74,11 +82,19 @@ func MenuWorker(config Config) {
 					wg.Done()
 				case 29: // Keyboard button
 					if k.state == 1 { // pressed
-						job(config)
+						job(&config)
 					}
 				case 191: // Keyboard button
 					if k.state == 1 { // pressed
-						job(config)
+						zeroDisplayTxt(&displayTxt)
+						config.CityIDx = RollIdx(config.CityIDx+1, len(config.CityIDTable))
+						job(&config)
+					}
+				case 104: // Keyboard button
+					if k.state == 1 { // pressed
+						zeroDisplayTxt(&displayTxt)
+						config.CityIDx = RollIdx(config.CityIDx-1, len(config.CityIDTable))
+						job(&config)
 					}
 				default: // .... next function to be built in, next city, detailed forecast or whatsoever
 					fmt.Println("Got Key:", k.key, " Pressed: ", k.state)

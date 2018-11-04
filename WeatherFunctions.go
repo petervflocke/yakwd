@@ -95,7 +95,15 @@ func RenderWeatherDisp(displayTxt *displayTxtType) {
 		panic(err)
 	}
 
-	dc.DrawStringAnchored(displayTxt.City+" @ "+displayTxt.TimeStamp, 250, my+3*dy+fy, 0.5, 0)
+	const maxCityLength = 20
+	var strtmp string
+	if len(displayTxt.City) > maxCityLength {
+		strtmp = displayTxt.City[:maxCityLength]
+	} else {
+		strtmp = displayTxt.City
+	}
+
+	dc.DrawStringAnchored(strtmp+" @ "+displayTxt.TimeStamp, 250, my+3*dy+fy, 0.5, 0)
 
 	// print Battery icon
 	if err := dc.LoadFontFace("./fonts/kindleweathersr.ttf", 40); err != nil {
@@ -210,7 +218,7 @@ func ProcessWeatherData(displayTxt *displayTxtType, w *owm.Forecast5WeatherData)
 	RenderWeatherDisp(displayTxt)
 }
 
-func getForecast5(config Config) (*owm.Forecast5WeatherData, error) {
+func getForecast5(config *Config) (*owm.Forecast5WeatherData, error) {
 	w, err := owm.NewForecast("5", "c", "en", config.APIKey)
 	if err != nil {
 		return nil, err

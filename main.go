@@ -52,7 +52,7 @@ func readConfig() (Config, error) {
 			case len(config.CityIDTable) == 0:
 				err = errors.New("Undifined City ID Table, at least one ID needed")
 			case (len(config.CityIDTable) - 1) < config.CityIDx:
-				err = errors.New("Ccity Index bigger then city numbers")
+				err = errors.New("City index bigger then the city numbers")
 			}
 		}
 	}
@@ -69,7 +69,7 @@ func zeroDisplayTxt(displayTxt *displayTxtType) {
 	}
 }
 
-func job(config Config) {
+func job(config *Config) {
 	var err error
 
 	mu.Lock()
@@ -124,12 +124,12 @@ func main() {
 
 	c := cron.New()
 	c.AddFunc("@hourly", func() {
-		job(config)
+		job(&config)
 	})
 	c.Start()
 	wg.Add(1)
 
-	job(config)
+	job(&config)
 
 	if config.Kindle == 1 {
 		keyboard = make(chan Kbd, 2)
