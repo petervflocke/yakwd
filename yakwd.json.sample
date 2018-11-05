@@ -1,0 +1,8 @@
+{
+  "apikey" : "copy of your open weather API key",
+  "cityidtable" : [2950158, 2925533, 6455259],
+  "cityidx"     : 1,
+  "kindle"      : 1,
+  "iconfont"    : "/usr/java/lib/fonts/kindleweathersr.ttf",
+  "txtfont"     : "/usr/java/lib/fonts/Helvetica_LT_65_Medium.ttf"  
+}

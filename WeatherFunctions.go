@@ -9,14 +9,14 @@ import (
 )
 
 // RenderWeatherDisp converts txt structure into a png picture
-func RenderWeatherDisp(displayTxt *displayTxtType) {
+func RenderWeatherDisp(config *Config, displayTxt *displayTxtType) {
 	const my = 75       // margin from top
 	const dy = 25 + 200 // high of a column
 	const ix = 70       // x of a midle of a weather icon in the firts column
 	const dx = 200      // width of a column
 	const wy = 70       // y of a midle of a weather icon in a first column
 	const tx = 160      // x of a first temperature text
-	const ty = 115      // y of a first temperature text
+	const ty = 120      // y of a first temperature text
 	const hy = -20      // move up header text
 	const iy = 190      // y of the the detailed weather information
 	const fy = 30       // y footer from the last line
@@ -44,7 +44,7 @@ func RenderWeatherDisp(displayTxt *displayTxtType) {
 
 	for i := 0; i < numDays; i++ {
 		// Print Temperature
-		if err := dc.LoadFontFace("./fonts/Robotosr.ttf", 70); err != nil {
+		if err := dc.LoadFontFace(config.TxtFont, 65); err != nil {
 			panic(err)
 		}
 		for j := 0; j < timeZones; j++ {
@@ -54,7 +54,7 @@ func RenderWeatherDisp(displayTxt *displayTxtType) {
 		}
 
 		// add smaller °C at the end of each temp.
-		if err := dc.LoadFontFace("./fonts/Robotosr.ttf", 30); err != nil {
+		if err := dc.LoadFontFace(config.TxtFont, 30); err != nil {
 			panic(err)
 		}
 		for j := 0; j < timeZones; j++ {
@@ -64,7 +64,7 @@ func RenderWeatherDisp(displayTxt *displayTxtType) {
 		}
 
 		// add detail (small text) weather description
-		if err := dc.LoadFontFace("./fonts/Robotosr.ttf", 16); err != nil {
+		if err := dc.LoadFontFace(config.TxtFont, 16); err != nil {
 			panic(err)
 		}
 		for j := 0; j < timeZones; j++ {
@@ -74,7 +74,7 @@ func RenderWeatherDisp(displayTxt *displayTxtType) {
 		}
 
 		// print weather icon
-		if err := dc.LoadFontFace("./fonts/kindleweathersr.ttf", 100); err != nil {
+		if err := dc.LoadFontFace(config.IconFont, 100); err != nil {
 			panic(err)
 		}
 
@@ -106,7 +106,7 @@ func RenderWeatherDisp(displayTxt *displayTxtType) {
 	dc.DrawStringAnchored(strtmp+" @ "+displayTxt.TimeStamp, 250, my+3*dy+fy, 0.5, 0)
 
 	// print Battery icon
-	if err := dc.LoadFontFace("./fonts/kindleweathersr.ttf", 40); err != nil {
+	if err := dc.LoadFontFace(config.IconFont, 40); err != nil {
 		panic(err)
 	}
 	dc.DrawStringAnchored(displayTxt.Batt, 600-3*fx, my+3*dy+fy, 0, 0.5)
@@ -118,7 +118,7 @@ func RenderWeatherDisp(displayTxt *displayTxtType) {
 
 // ProcessWeatherData converts json structure from open weather into txt structure
 // Selecting data from given time zones during the day
-func ProcessWeatherData(displayTxt *displayTxtType, w *owm.Forecast5WeatherData) {
+func ProcessWeatherData(config *Config, displayTxt *displayTxtType, w *owm.Forecast5WeatherData) {
 
 	var weatherFontMapping = map[int]string{
 		// openweather Main weather code to icon conversion
@@ -215,7 +215,7 @@ func ProcessWeatherData(displayTxt *displayTxtType, w *owm.Forecast5WeatherData)
 			//fmt.Println("dt:", time.Unix(key.Dt, 0).UTC(), " dt: ", key.Dt)
 		}
 	}
-	RenderWeatherDisp(displayTxt)
+	RenderWeatherDisp(config, displayTxt)
 }
 
 func getForecast5(config *Config) (*owm.Forecast5WeatherData, error) {

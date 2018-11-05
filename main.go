@@ -13,14 +13,14 @@ import (
 	"github.com/robfig/cron"
 )
 
-const picFile = "out.png"
-
 // Config File Structure, can be extend if needed, languages, update times, etc.
 type Config struct {
 	APIKey      string `json:"apikey"`
 	CityIDTable []int  `json:"cityidtable"`
 	CityIDx     int    `json:"cityidx"`
 	Kindle      int    `json:"kindle"` // = 1 we are on kindle, do all kindle related jobs
+	IconFont    string `json:"iconfont"`
+	TxtFont     string `json:"txtfont"`
 }
 
 const numDays = 3   // number of forecast days to be displayed
@@ -37,8 +37,13 @@ type displayTxtType struct {
 }
 
 func readConfig() (Config, error) {
-	config := Config{APIKey: "", CityIDTable: []int{}, CityIDx: -1, Kindle: 0}
-	configFile, err := os.Open("config.json")
+	config := Config{APIKey: "",
+		CityIDTable: []int{},
+		CityIDx:     -1,
+		Kindle:      0,
+		IconFont:    "/usr/java/lib/fonts/kindleweathersr.ttf",
+		TxtFont:     "/usr/java/lib/fonts/Helvetica_LT_65_Medium.ttf"}
+	configFile, err := os.Open(conFile)
 	defer configFile.Close()
 	if err == nil {
 		byteValue, _ := ioutil.ReadAll(configFile)
@@ -91,7 +96,7 @@ func job(config *Config) {
 		if w.City.ID != config.CityIDTable[config.CityIDx] { // open weather map did not return correct weather data, possible reason: network, server, etc. error?
 			renderErrorDisp("!", "Weather data not available.")
 		} else {
-			ProcessWeatherData(&displayTxt, w)
+			ProcessWeatherData(config, &displayTxt, w)
 		}
 		// when we are on kidle go ahead with the display task
 	}
@@ -105,17 +110,28 @@ func job(config *Config) {
 var wg sync.WaitGroup
 var mu sync.Mutex
 var keyboard chan Kbd
+var conFile = "/etc/yakwd.json"
+
+const picFile = "/tmp/out.png"
 
 // global display holds data from the past today's forecasts for morning, and afternoon, when they are not a forecast any loner
 var displayTxt displayTxtType
 
 func main() {
 
+	if _, err := os.Stat(conFile); os.IsNotExist(err) {
+		conFile = "yakwd.json"
+	}
 	config, err := readConfig()
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	if _, err := os.Stat(config.IconFont); os.IsNotExist(err) {
+		config.IconFont = "./fonts/kindleweathersr.ttf"
+	}
+	if _, err := os.Stat(config.TxtFont); os.IsNotExist(err) {
+		config.TxtFont = "./fonts/Helvetica_LT_65_Medium.ttf"
+	}
 	if config.Kindle != 1 {
 		fmt.Println("Config: Not on Kindle!")
 	}
