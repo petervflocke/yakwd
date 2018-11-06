@@ -14,7 +14,7 @@
 
 + No real jailbreak is needed, just a root access via ssh.
   + Here how to do this => https://github.com/petervflocke/yakwd/blob/master/enablesshoverwifi.md
-
++ [Screenshot](https://github.com/petervflocke/yakwd#screenshots)
 
 ### Remarks:
 
