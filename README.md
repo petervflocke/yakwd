@@ -33,8 +33,8 @@
   * your own open weather API key. 
   * the city ids to be added to the table (at least one) 
   * an index for the first city to be displayed. Index starts from 0
-5. Copy `yakwd.sh` to your kindle `/var/tmp/root/`
-6. Run from ssh terminal on kindle: `./yakwd.sh`
+5. Copy `local.sh` to your kindle `/var/tmp/root/`
+6. Run from ssh terminal on kindle: `./local.sh&`
 
 ### Long Install and some config options
 

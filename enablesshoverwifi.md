@@ -67,6 +67,18 @@ exit 0
 
 Disconnect from USB, ssh over WiFi shall be ready.
 
+>**Remark**
+It will be neccessary to call all ssh commands with the opption `-oKexAlgorithms=+diffie-hellman-group1-sha1` like this:
+ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -l root 192.168.0.123 <br>
+in order to avoid this long option add to or create a file: `~/.ssh/config`with following content:
+
+    Host 192.168.0.44
+    KexAlgorithms +diffie-hellman-group1-sha1
+
+where ip is the address of your kindle<br><br>
+
+
+
 ### Password-Less ssh
 For simple oeprations and quick login create password-less login:
 
