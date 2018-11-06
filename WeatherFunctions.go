@@ -84,14 +84,14 @@ func RenderWeatherDisp(config *Config, displayTxt *displayTxtType) {
 
 	}
 	// other static text
-	if err := dc.LoadFontFace("./fonts/Robotosr.ttf", 30); err != nil {
+	if err := dc.LoadFontFace(config.TxtFont, 30); err != nil {
 		panic(err)
 	}
 	dc.DrawStringAnchored("Morning", dx/2+0*dx, my+hy, 0.5, 0)
 	dc.DrawStringAnchored("Afternoon", dx/2+1*dx, my+hy, 0.5, 0)
 	dc.DrawStringAnchored("Evening", dx/2+2*dx, my+hy, 0.5, 0)
 
-	if err := dc.LoadFontFace("./fonts/Robotosr.ttf", 24); err != nil {
+	if err := dc.LoadFontFace(config.TxtFont, 24); err != nil {
 		panic(err)
 	}
 

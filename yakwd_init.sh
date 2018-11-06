@@ -4,12 +4,14 @@ _FUNCTIONS=/etc/rc.d/functions
 [ -f ${_FUNCTIONS} ] && . ${_FUNCTIONS}
 
 YAKWD=/usr/bin/yakwd
+YAKWDBIN=yakwd
 
 [ ! -x $YAKWD ] && exit 1
 
 run() {
 	/etc/init.d/framework stop
 	/usr/bin/lipc-set-prop -- com.lab126.powerd preventScreenSaver 1
+	/usr/sbin/eips -s 5
 	$YAKWD 
 	/usr/bin/lipc-set-prop -- com.lab126.powerd preventScreenSaver 0
 	/etc/init.d/framework start	
@@ -19,12 +21,12 @@ run() {
 start_YAKWD()
 {
 	msg "starting yakwd app" I
-	run()&
+	run &
 }
 
 stop_YAKWD()
 {
-	killall $YAKWD
+	killall -9 $YAKWDBIN
 }
 
 case "$1" in

@@ -22,23 +22,62 @@
 
 ### Quick Install:
 
-1) copy from bin project folder file "yakwd" to your kindle
-2) copy to the folder with yakwd 
-* font folder
-* config.json.sample and rename to config.json - update it with<br>
+1) copy from bin project folder file "yakwd" to your kindle (/var/tmp/root/)
+2) copy to the folder from bin folder file `yakwd`
+* the `font` folder
+* copy `yakwd.json.sample` to `yakwd.json` - update it as follow
   * your own open weather API key. 
   * the city ids to be added to the table (at least one) 
-  * an index for the firts city to be displayed. Index starts from 0
+  * an index for the first city to be displayed. Index starts from 0
 * main.sh 
+run from ssh terminal: `./yakwd.sh`
 
-run main.sh
-
-### Long Install
+### Long Install and some config options
 
 * clone git repository
 * install all used packages
 * compile go source, see build file for target kindle architecture
 * copy results including config, scripts and fonts files to your kindle.
+
+In the yakwd.json you can configure which fonts shall be used. These are the ones I use:
+```json
+  "iconfont"    : "/usr/java/lib/fonts/kindleweathersr.ttf",
+  "txtfont"     : "/usr/java/lib/fonts/Helvetica_LT_65_Medium.ttf" 
+```
+For the test and quick installation in a /var/tmp/root/ the local folder `./font/` with Robotosr.ttf and kindleweathersr.ttf can be used. If the fonts are not found, yakwd tries to load them from local .font folder.
+
+For the default instalation kindleweathersr.ttf has to be copied into the kindle font directory. <BR>
+1. on kindle Make the root rw (`mntroot rw`)
+2. from pc (s)copy `./font/kindleweathersr.ttf` to `kindle_ip://usr/java/lib/fonts/`
+
+### Testing on PC without Kindle
+* Clone git repository
+* Install all used packages
+  * `go get github.com/robfig/cron`
+  * `go get github.com/briandowns/openweathermap`
+  * `go get github.com/fogleman/gg`
+  * `go get github.com/fogleman/gg`
+* Rename `yakwd.json.sample` to `yakwd.json` - update as above in the quick instllation section
+* Change to `"kindle"      : 0,` to bypass all kindle dependent functions
+* Run go source from yakwd folder: `go run yakwd`
+
+The ouput graphic file `out.png` is saved `/tmp/`  folder.
+
+
+****
+
+Description under development (do not use for now, I'm documenting my own steps):
+*On Kindle:*
++ ~~mntroot rw~~
+
+*On PC:"
+1. ~~scp yakwd root@192.168.0.144:/usr/local/bin/~~
+2. ~~scp fonts/kindleweathersr.ttf root@192.168.0.144:/usr/java/lib/fonts/~~
+3. ~~scp yakwd.json root@192.168.0.144:/etc/~~
+4. ~~scp yakwd_init.sh root@192.168.0.144:/etc/init.d/~~
+
+****
+
 
 ### ToDo
 

@@ -130,7 +130,7 @@ func main() {
 		config.IconFont = "./fonts/kindleweathersr.ttf"
 	}
 	if _, err := os.Stat(config.TxtFont); os.IsNotExist(err) {
-		config.TxtFont = "./fonts/Helvetica_LT_65_Medium.ttf"
+		config.TxtFont = "./fonts/Robotosr.ttf"
 	}
 	if config.Kindle != 1 {
 		fmt.Println("Config: Not on Kindle!")
