@@ -54,7 +54,7 @@ func RollIdx(i, maxi int) int {
 
 // MenuWorker consumes key from channel and updates program states
 // at this moment only exits
-func MenuWorker(config Config) {
+func MenuWorker(config *Config) {
 	// keyboard scan codes:
 	// 158 back
 	// 29 keyboard
@@ -82,19 +82,19 @@ func MenuWorker(config Config) {
 					wg.Done()
 				case 29: // Keyboard button
 					if k.state == 1 { // pressed
-						job(&config)
+						job(config)
 					}
 				case 191: // Keyboard button
 					if k.state == 1 { // pressed
 						zeroDisplayTxt(&displayTxt)
 						config.CityIDx = RollIdx(config.CityIDx+1, len(config.CityIDTable))
-						job(&config)
+						job(config)
 					}
 				case 104: // Keyboard button
 					if k.state == 1 { // pressed
 						zeroDisplayTxt(&displayTxt)
 						config.CityIDx = RollIdx(config.CityIDx-1, len(config.CityIDTable))
-						job(&config)
+						job(config)
 					}
 				default: // .... next function to be built in, next city, detailed forecast or whatsoever
 					fmt.Println("Got Key:", k.key, " Pressed: ", k.state)

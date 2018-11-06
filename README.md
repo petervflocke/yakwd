@@ -77,10 +77,10 @@ The ouput graphic file `out.png` is saved `/tmp/`  folder.
 
 *On PC:* from the project folder: (kindle = ip address of the kindle)
 1. Prepare yakwd.jason (API-Keys, City IDs, City index) see above descriptions
-2. scp bin/yakwd root@kindle:/usr/local/bin/
-3. scp fonts/kindleweathersr.ttf root@kindle:/usr/java/lib/fonts/
-4. scp yakwd.json root@kindle:/etc/
-5. scp yakwd.sh root@kindle:/usr/local/sbin/
+2. `scp bin/yakwd root@kindle:/usr/local/bin/`
+3. `scp fonts/kindleweathersr.ttf root@kindle:/usr/java/lib/fonts/`
+4. `scp yakwd.json root@kindle:/etc/`
+5. `scp yakwd.sh root@kindle:/usr/local/sbin/`
 
 *On Kindle:*
 1. Login via ssh and change root system to writeable: `mntroot ro`

@@ -150,7 +150,7 @@ func main() {
 	if config.Kindle == 1 {
 		keyboard = make(chan Kbd, 2)
 		go KeyboardWorker()
-		go MenuWorker(config)
+		go MenuWorker(&config)
 		// wg.Add(1)
 	}
 
