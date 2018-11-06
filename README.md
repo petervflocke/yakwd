@@ -12,18 +12,22 @@
   + _Right Next Page_ : switch to the next city on the list
   + _Left Next Page_ : switch to the previous city on the list
 
++ No real jailbreak is needed, just a root access via ssh.
+  + Here how to do this => https://github.com/petervflocke/yakwd/blob/master/enablesshoverwifi.md
+
+
 ### Remarks:
 
 * Inspired by https://github.com/DDRBoxman/kindle-weather
 * Tested on Kindle 4 Non Touch https://wiki.mobileread.com/wiki/Kindle4NTHacking
 * To run it you need an API key from https://openweathermap.org/api
-* If you do not want to install Golang, use a ready binary from bin folder. It was tested on Kindle 4 NT
-* Full starting script for the init process will follow soon
+* If you do not want to install Golang, use a ready binary from bin folder. It was tested on **Kindle 4 NT**
+
 
 ### Quick Install:
 
-1. Download this github repository 
-2. Copy from git bin project folder file `yakwd` to your kindle (`/var/tmp/root/`)
+1. Download or clone this github repository 
+2. Copy from project bin folder file `yakwd` to your kindle (`/var/tmp/root/`)
 3. Copy the `font` folder to to your kindle (`/var/tmp/root/`)
 4. Copy `yakwd.json.sample` to to your kindle (`/var/tmp/root/yakwd.json`) - update it as follow
   * your own open weather API key. 
@@ -66,25 +70,34 @@ The ouput graphic file `out.png` is saved `/tmp/`  folder.
 
 ****
 
-Description under development (do not use for now, I'm documenting my own steps):
-*On Kindle:*
-+ ~~mntroot rw~~
+### How to pernamently install on Kindle:
 
-*On PC:"
-1. ~~scp yakwd root@192.168.0.144:/usr/local/bin/~~
-2. ~~scp fonts/kindleweathersr.ttf root@192.168.0.144:/usr/java/lib/fonts/~~
-3. ~~scp yakwd.json root@192.168.0.144:/etc/~~
-4. ~~scp yakwd_init.sh root@192.168.0.144:/etc/init.d/~~
+*On Kindle:*
+1. Login via ssh and change root system to writeable: `mntroot rw`
+
+*On PC:* from the project folder: (kindle = ip address of the kindle)
+1. Prepare yakwd.jason (API-Keys, City IDs, City index) see above descriptions
+2. scp bin/yakwd root@kindle:/usr/local/bin/
+3. scp fonts/kindleweathersr.ttf root@kindle:/usr/java/lib/fonts/
+4. scp yakwd.json root@kindle:/etc/
+5. scp yakwd.sh root@kindle:/usr/local/sbin/
+
+*On Kindle:*
+1. Login via ssh and change root system to writeable: `mntroot ro`
+
+Done!
+
+To start the application (no launcher on kindle) run from your PC or mobile:<BR>
+`ssh root@kindle "/usr/local/sbin/yakwd.sh >/dev/null 2>&1 &"`
 
 ****
-
 
 ### ToDo
 
 * Add init script for start at boot
 * Reduce current consupmtion by adding sleep mode or switching off wifi when not needed
-* Add calendar view option
-* Out of scope: Creating a Kindle "update" package, manul instllation will bbe required
+* Add family calendar view option, warnings from home automations system ,etc
+* Out of scope: creating a Kindle "update" package, manual installation will be always required
 
 
 ### "ScreenShots"
@@ -93,7 +106,3 @@ Example from the alfa v1.0 Version with an own footer of location, time and batt
 Pictures have a spot in the upper corner, it's a broken screen :(
 
 ![live foto](https://github.com/petervflocke/yakwd/blob/master/Docs/kindle-live.jpg)
-<br>
-
-Earlier version, still with Kindle bar at the top.
-![live foto](https://github.com/petervflocke/yakwd/blob/master/Docs/kindle-live-2.jpg)
