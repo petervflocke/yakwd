@@ -34,25 +34,31 @@ COMMIT
  * Check if dropbear init file exists `/mnt/base-mmc/etc/init.d/dropbear`, if not create it with the content of:
 
 ```bash
-#!/bin/sh
-
-_FUNCTIONS=/etc/rc.d/functions
-[ -f ${_FUNCTIONS} ] && . ${_FUNCTIONS}
-
-case "$1" in
-start)
-
-/usr/local/sbin/dropbear
-;;
-
-*)
-msg "usage: /etc/init.d/$NAME {start}" W >&2
-exit 1
-;;
-
-esac
-
-exit 0
+#!/bin/sh                                                                       
+                                                                                
+_FUNCTIONS=/etc/rc.d/functions                                                  
+[ -f ${_FUNCTIONS} ] && . ${_FUNCTIONS}                                         
+                                                                                
+case "$1" in                                                                    
+start)                                                                          
+                                                                                
+   if [ -f "/etc/dropbear/authorized_keys" ]                                    
+   then                                                                         
+      mkdir /var/tmp/root/.ssh                                                  
+      cp /etc/dropbear/authorized_keys /var/tmp/root/.ssh/                      
+   fi                                                                           
+                                                                                
+   /usr/local/sbin/dropbear                                                     
+   ;;                                                                           
+                                                                                
+*)                                                                              
+   msg "usage: /etc/init.d/$NAME {start}" W >&2                                 
+   exit 1                                                                       
+   ;;                                                                           
+                                                                                
+esac                                                                            
+                                                                                
+exit 0 
 ```
 
  * Make it executable: `chmod 755 /mnt/base-mmc/etc/init.d/dropbear`
@@ -61,3 +67,18 @@ exit 0
 
 Disconnect from USB, ssh over WiFi shall be ready.
 
+### Password-Less ssh
+For simple oeprations and quick login create password-less login:
+
+1. ssh-keygen -t rsa (if not yet performed for other logins)
+2. `ssh-copy-id root@kindle_ip` (where kindle_ip=ip of your kindle)
+3. `ssh root@kindle_ip` (no more password needed)
+
+*On Kindle:*
+```bash
+[root@kindle root]# mntroot rw
+system: I mntroot:def:Making root filesystem writeable
+/dev/mmcblk0p1 on / type ext3 (rw,noatime,nodiratime)
+[root@kindle root]# cp .ssh/authorized_keys /etc/dropbear/authorized_keys
+[root@kindle root]# mntroot ro
+```

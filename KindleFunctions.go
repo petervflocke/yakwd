@@ -109,15 +109,15 @@ func MenuWorker(config Config) {
 }
 
 func clearDisplay() {
-	cmd := exec.Command("eips", "-c")
+	cmd := exec.Command("/usr/sbin/eips", "-c")
 	cmd.Run()
 
-	cmd = exec.Command("eips", "-c")
+	cmd = exec.Command("/usr/sbin/eips", "-c")
 	cmd.Run()
 }
 
 func showImage(imagePath string) {
-	cmd := exec.Command("eips", "-f", "-g", imagePath)
+	cmd := exec.Command("/usr/sbin/eips", "-f", "-g", imagePath)
 	err := cmd.Run()
 	if err != nil {
 		log.Println(err)
