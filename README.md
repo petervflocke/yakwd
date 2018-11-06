@@ -57,7 +57,7 @@ For the default instalation kindleweathersr.ttf has to be copied into the kindle
   * `go get github.com/briandowns/openweathermap`
   * `go get github.com/fogleman/gg`
   * `go get github.com/fogleman/gg`
-* Rename `yakwd.json.sample` to `yakwd.json` - update as above in the quick instllation section
+* Rename `yakwd.json.sample` to `yakwd.json` - update as above in the quick installation section
 * Change to `"kindle"      : 0,` to bypass all kindle dependent functions
 * Run go source from yakwd folder: `go run yakwd`
 
