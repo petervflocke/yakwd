@@ -15,22 +15,22 @@
 ### Remarks:
 
 * Inspired by https://github.com/DDRBoxman/kindle-weather
-* Tested on Kindle 4 No Touch https://wiki.mobileread.com/wiki/Kindle4NTHacking
+* Tested on Kindle 4 Non Touch https://wiki.mobileread.com/wiki/Kindle4NTHacking
 * To run it you need an API key from https://openweathermap.org/api
 * If you do not want to install Golang, use a ready binary from bin folder. It was tested on Kindle 4 NT
 * Full starting script for the init process will follow soon
 
 ### Quick Install:
 
-1) copy from bin project folder file "yakwd" to your kindle (/var/tmp/root/)
-2) copy to the folder from bin folder file `yakwd`
-* the `font` folder
-* copy `yakwd.json.sample` to `yakwd.json` - update it as follow
+1. Download this github repository 
+2. Copy from git bin project folder file `yakwd` to your kindle (`/var/tmp/root/`)
+3. Copy the `font` folder to to your kindle (`/var/tmp/root/`)
+4. Copy `yakwd.json.sample` to to your kindle (`/var/tmp/root/yakwd.json`) - update it as follow
   * your own open weather API key. 
   * the city ids to be added to the table (at least one) 
   * an index for the first city to be displayed. Index starts from 0
-* main.sh 
-run from ssh terminal: `./yakwd.sh`
+5. Copy `yakwd.sh` to your kindle `/var/tmp/root/`
+6. Run from ssh terminal on kindle: `./yakwd.sh`
 
 ### Long Install and some config options
 
