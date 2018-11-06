@@ -10,9 +10,9 @@ However second point needs some corrections:
 1. Switch to diagnostic mode, by adding an empty file "ENABLE_DIAGS" to usb root. Do not disconnect USB Cable
 2. Restart from menu service menu and still on kindle:
 3. In Diagnostic Mode go to
- 3.1 Misc individual diagnostics
- 3.2 Utilities
- 3.3 Enable USBnet and exit with the ->
+3.1 Misc individual diagnostics
+3.2 Utilities
+3.3 Enable USBnet and exit with the ->
 4. On your linux terminal enable usbnetwork (check with ifconfig or dmesg new network device, for me it was enp0s20u6)
 5. and follow the steps:
 5.1 `sudo ifconfig enp0s20u6 192.168.15.2 netmask 255.255.255.0`
