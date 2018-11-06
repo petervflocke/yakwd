@@ -70,7 +70,8 @@ Disconnect from USB, ssh over WiFi shall be ready.
 ### Password-Less ssh
 For simple oeprations and quick login create password-less login:
 
-1. ssh-keygen -t rsa (if not yet performed for other logins)
+*On PC:*
+1. `ssh-keygen -t rsa` (if not yet performed for other logins)
 2. `ssh-copy-id root@kindle_ip` (where kindle_ip=ip of your kindle)
 3. `ssh root@kindle_ip` (no more password needed)
 
