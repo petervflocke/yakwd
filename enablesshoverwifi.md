@@ -55,9 +55,9 @@ esac
 exit 0
 ```
 
-   5.8 Make it executable: `chmod 755 /mnt/base-mmc/etc/init.d/dropbear`
-   5.9 Start it in the 5th init level by: `ln -s /etc/init.d/dropbear /mnt/base-mmc/etc/rc5.d/S99dropbear`
-   5.10 `sync`, ` umount /mnt/base-mmc`and on kindle from main diagnostic menu go to Exit, Reboot or Disable Diags, disable Diag and confirmed with "<-" key.
+ * Make it executable: `chmod 755 /mnt/base-mmc/etc/init.d/dropbear`
+ * Start it in the 5th init level by: `ln -s /etc/init.d/dropbear /mnt/base-mmc/etc/rc5.d/S99dropbear`
+ * `sync`, ` umount /mnt/base-mmc`and on kindle from main diagnostic menu go to Exit, Reboot or Disable Diags, disable Diag and confirmed with "<-" key.
 
 Disconnect from USB, ssh over WiFi shall be ready.
 
