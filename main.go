@@ -77,6 +77,7 @@ func zeroDisplayTxt(displayTxt *displayTxtType) {
 func job(config *Config) {
 	var err error
 
+	//showTXT("in job")
 	mu.Lock()
 	if config.Kindle == 1 {
 		batLevel, _ := strconv.Atoi(checkBattery())
@@ -87,14 +88,14 @@ func job(config *Config) {
 		err = nil
 	}
 	if err != nil {
-		renderErrorDisp("!", err.Error())
+		renderErrorDisp(config, "!", err.Error())
 	} else {
 		w, err := getForecast5(config)
 		if err != nil {
 			log.Fatalln(err)
 		}
 		if w.City.ID != config.CityIDTable[config.CityIDx] { // open weather map did not return correct weather data, possible reason: network, server, etc. error?
-			renderErrorDisp("!", "Weather data not available.")
+			renderErrorDisp(config, "!", "Weather data not available.")
 		} else {
 			ProcessWeatherData(config, &displayTxt, w)
 		}
@@ -105,6 +106,7 @@ func job(config *Config) {
 		showImage(picFile)
 	}
 	mu.Unlock()
+	//showTXT("OUT job")
 }
 
 var wg sync.WaitGroup
@@ -140,6 +142,7 @@ func main() {
 
 	c := cron.New()
 	c.AddFunc("@hourly", func() {
+		//c.AddFunc("@every 1m", func() {
 		job(&config)
 	})
 	c.Start()

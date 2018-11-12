@@ -124,19 +124,28 @@ func showImage(imagePath string) {
 	}
 }
 
-func renderErrorDisp(icon, message string) {
+// func showTXT(txt string) {
+// 	fmt.Println(txt)
+// 	cmd := exec.Command("/usr/sbin/eips", "-h", txt)
+// 	err := cmd.Run()
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
+// }
+
+func renderErrorDisp(config *Config, icon, message string) {
 	const my = 75 // margin from top
 
 	dc := gg.NewContext(600, 800)
 	ClearPic(dc)
 
 	// print ! icon
-	if err := dc.LoadFontFace("./fonts/kindleweathersr.ttf", 200); err != nil {
+	if err := dc.LoadFontFace(config.IconFont, 200); err != nil {
 		panic(err)
 	}
 	dc.DrawStringAnchored(icon, 300, my+200, 0.5, 0.5)
 
-	if err := dc.LoadFontFace("./fonts/Robotosr.ttf", 40); err != nil {
+	if err := dc.LoadFontFace(config.TxtFont, 40); err != nil {
 		panic(err)
 	}
 	dc.DrawStringWrapped(message, 300, 450, 0.5, 0.5, 550, 1.5, gg.AlignCenter)
